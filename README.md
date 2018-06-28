@@ -11,5 +11,13 @@ make install
 
 ## Usage
 ```sh
-head -c1 /dev/urand | byte-insight
+$ echo test | byte-insight 
+offset	hex	dec	bin	ASCII
+0	0x74	0d116	01110100	t
+1	0x65	0d101	01100101	e
+2	0x73	0d115	01110011	s
+3	0x74	0d116	01110100	t
+4	0x0a	0d010	00001010	
+
+
 ```
