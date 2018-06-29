@@ -18,7 +18,7 @@ int main(int argc, char const *argv[]){
 	unsigned char c;
 	unsigned int i = 0;
 
-	fprintf(stderr, "offset\thex\tdec\tbin     \tname\tASCII\n");
+	fprintf(stderr, "offset\thex\tdec\tbin     \tname\traw\n");
 
 	c = getchar();
 	while(!feof(stdin)){

@@ -12,12 +12,12 @@ make install
 ## Usage
 ```sh
 $ echo test | byte-insight 
-offset	hex	dec	bin	ASCII
-0	0x74	0d116	01110100	t
-1	0x65	0d101	01100101	e
-2	0x73	0d115	01110011	s
-3	0x74	0d116	01110100	t
-4	0x0a	0d010	00001010	
+offset	hex	dec	bin     	name	raw
+0	0x74	0d116	01110100	char	t
+1	0x65	0d101	01100101	char	e
+2	0x73	0d115	01110011	char	s
+3	0x74	0d116	01110100	char	t
+4	0x0a	0d010	00001010	LF	
 
 
 ```
