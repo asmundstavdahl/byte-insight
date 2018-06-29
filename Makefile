@@ -14,3 +14,6 @@ install:
 test:
 	gcc -g -o $(F_OUT) $(F_SRC)
 	bash -c "echo test >$(F_TEST_INPUT) && echo 'run <$(F_TEST_INPUT)' | gdb -quiet ./$(F_OUT)"
+
+test-utf8: test
+	bash -c "echo 'Æ e ÅsmuŊ' >$(F_TEST_INPUT) && echo 'run <$(F_TEST_INPUT)' | gdb -quiet ./$(F_OUT)"
