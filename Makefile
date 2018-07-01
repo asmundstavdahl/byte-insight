@@ -1,5 +1,5 @@
 F_OUT = byte-insight
-F_SRC = main.c utf8.c ascii.c
+F_SRC = main.c utf8.c ascii.c printing.c
 D_INSTALL = /usr/bin
 F_TEST_INPUT = /tmp/byte-insight-test-input
 
@@ -40,3 +40,8 @@ test-utf8: test
 
 build-generator:
 	gcc -o generator generator.c
+
+usage: build
+	echo test | ./byte-insight
+	echo Åsmund | ./byte-insight ohun
+	./byte-insight ?

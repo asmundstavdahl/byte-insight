@@ -1,5 +1,6 @@
-#ifndef _MAIN_H_
-#define _MAIN_H_
+#ifndef _PRINTERS_H_
+#define _PRINTERS_H_
+
 
 // Binary thanks to https://stackoverflow.com/a/3208376
 #define BYTE_TO_BINARY_PATTERN "%c%c%c%c%c%c%c%c"
@@ -12,6 +13,10 @@
   (byte & 0x04 ? '1' : '0'), \
   (byte & 0x02 ? '1' : '0'), \
   (byte & 0x01 ? '1' : '0')
+
+
+void print_header(const char *columns);
+void print_row(unsigned int offset, unsigned char c, const char *columns);
 
 
 #endif

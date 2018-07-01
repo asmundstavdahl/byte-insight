@@ -11,25 +11,33 @@ make install
 
 ## Usage
 ```sh
-$ echo test | byte-insight
-offset	hex	dec	bin     	name	raw	utf8
-0	0x74	0d116	01110100	ASCII	t	t
-1	0x65	0d101	01100101	ASCII	e	e
-2	0x73	0d115	01110011	ASCII	s	s
-3	0x74	0d116	01110100	ASCII	t	t
-4	0x0a	0d010	00001010	LF	
-	
+$ echo test | ./byte-insight
+offset  hex     dec     bin             name    raw     utf8
+0       0x74    116     01110100        ASCII   t       t
+1       0x65    101     01100101        ASCII   e       e
+2       0x73    115     01110011        ASCII   s       s
+3       0x74    116     01110100        ASCII   t       t
+4       0x0a    10      00001010        LF
 
-$ echo Åsmund | byte-insight
-offset	hex	dec	bin     	name	raw	utf8
-0	0xc3	0d195	11000011	u-start	�	�
-1	0x85	0d133	10000101	u-cont	�	Å
-2	0x73	0d115	01110011	ASCII	s	s
-3	0x6d	0d109	01101101	ASCII	m	m
-4	0x75	0d117	01110101	ASCII	u	u
-5	0x6e	0d110	01101110	ASCII	n	n
-6	0x64	0d100	01100100	ASCII	d	d
-7	0x0a	0d010	00001010	LF	
-	
 
+$ echo Åsmund | ./byte-insight ohun
+offset  hex     utf8    name
+0       0xc3            u-start
+1       0x85    Å       u-cont
+2       0x73    s       ASCII
+3       0x6d    m       ASCII
+4       0x75    u       ASCII
+5       0x6e    n       ASCII
+6       0x64    d       ASCII
+7       0x0a
+        LF
+$ ./byte-insight ?
+Usage: ./byte-insight [ohdbnru]*
+        o - offset
+        h - hex
+        d - dec
+        b - bin
+        n - name
+        r - raw
+        u - utf8
 ```
