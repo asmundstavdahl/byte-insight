@@ -1,27 +1,19 @@
 #include <stdio.h>
+#include <stdlib.h>
 
-#include "main.h"
-#include "ascii.h"
-#include "utf8.h"
+#include "printing.h"
 
 int main(int argc, char const *argv[]){
 	unsigned char c;
-	unsigned int i = 0;
+	unsigned int offset = 0;
 
-	fprintf(stderr, "offset\thex\tdec\tbin     \tname\traw\tutf8\n");
+	const char *columns = argc > 1 ?argv[1] :"ohdbnru";
 
-	c = getchar();
-	while(!feof(stdin)){
-		printf("%d\t0x%02x\t0d%03d\t"BYTE_TO_BINARY_PATTERN"\t%s\t%c\t%s\n",
-			i,
-			c,
-			c,
-			BYTE_TO_BINARY(c),
-			utf8_char_name(c),
-			c,
-			utf8(c));
-		c = getchar();
-		i++;
+	print_header(columns);
+
+	for(c = getchar(); !feof(stdin); c = getchar()){
+		print_row(offset, c, columns);
+		offset++;
 	}
 
 	return 0;
