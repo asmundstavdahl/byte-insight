@@ -12,23 +12,32 @@
   (byte & 0x02 ? '1' : '0'), \
   (byte & 0x01 ? '1' : '0')
 
+#define NAME_PRINT "ASCII"
+
+#define UTF8_CHAR_MAX_BYTES 6
+#define UTF8_BUF_LEN (UTF8_CHAR_MAX_BYTES + 1)
+
 const char *get_char_name(char);
+
+char *utf8(char);
+const char *utf8_char_name(char);
 
 int main(int argc, char const *argv[]){
 	unsigned char c;
 	unsigned int i = 0;
 
-	fprintf(stderr, "offset\thex\tdec\tbin     \tname\traw\n");
+	fprintf(stderr, "offset\thex\tdec\tbin     \tname\traw\tutf8\n");
 
 	c = getchar();
 	while(!feof(stdin)){
-		printf("%d\t0x%02x\t0d%03d\t"BYTE_TO_BINARY_PATTERN"\t%s\t%c\n",
+		printf("%d\t0x%02x\t0d%03d\t"BYTE_TO_BINARY_PATTERN"\t%s\t%c\t%s\n",
 			i,
 			c,
 			c,
 			BYTE_TO_BINARY(c),
 			get_char_name(c),
-			c);
+			c,
+			utf8(c));
 		c = getchar();
 		i++;
 	}
@@ -37,7 +46,7 @@ int main(int argc, char const *argv[]){
 }
 
 const char *get_char_name(char c){
-	if(c > 0x1F) return "char";
+	if(c > 0x1F && c < 0x7F) return NAME_PRINT;
 	switch(c){
 		case 0x00: return "NUL";
 		case 0x01: return "SOH";
@@ -71,6 +80,71 @@ const char *get_char_name(char c){
 		case 0x1D: return "GS";
 		case 0x1E: return "RS";
 		case 0x1F: return "US";
-		default:   return "char";
+		case 0x7F: return "DEL";
+		default:   utf8_char_name(c);
+	}
+}
+
+int is_utf8_multibyte = 0;
+char *utf8(char c){
+	static char buf[UTF8_BUF_LEN];
+	static unsigned int i = 0;
+
+	/* UTF-8 quick-start (+ means at least one occurrence)
+	 * 0b0xxxxxxx → single byte char
+	 * 0b11+0xxxx → start of multi-byte char
+	 * 0b10xxxxxx → cont. multi-byte char
+	 */
+
+	if(c & (1<<7)){
+		if(c & (1<<6)){ // Start of multi-byte
+			i = 0;
+			if(c ^ 0x00){ // we must also have a 0 bit
+				is_utf8_multibyte = 1;
+			} else {
+				is_utf8_multibyte = 0;
+			}
+		} else { // Continuation of multi-byte or an extended ASCII char
+			if(!is_utf8_multibyte){
+				i = 0;
+			}
+		}
+	} else {
+		i = 0;
+		is_utf8_multibyte = 0;
+	}
+
+	// Prevent overflow with invalid input
+	if(i > UTF8_CHAR_MAX_BYTES){
+		i = 0;
+		is_utf8_multibyte = 0;
+	}
+	
+	buf[i] = c;
+	if(is_utf8_multibyte){
+		i++;
+	}
+	buf[i] = '\0';
+
+	return buf;
+}
+
+const char *utf8_char_name(char c){
+	if(c & (1<<7)){
+		if(is_utf8_multibyte){
+			if(c & (1<<6)){
+				if(c ^ 0x00){
+					return "u-start";
+				} else {
+					return NAME_PRINT;
+				}
+			} else {
+				return "u-cont";
+			}
+		} else {
+			return "x-ASCII";
+		}
+	} else {
+		return NAME_PRINT;
 	}
 }
