@@ -40,9 +40,7 @@ const char *utf8(char c){
 	}
 	
 	buf[i] = c;
-	if(is_utf8_multibyte){
-		i++;
-	}
+	i++;
 	buf[i] = '\0';
 
 	return buf;
