@@ -36,6 +36,6 @@ const char *ascii_char_name(char c){
 		case 0x1E: return "RS";
 		case 0x1F: return "US";
 		case 0x7F: return "DEL";
-		default:   0;
+		default:   return 0;
 	}
 }
