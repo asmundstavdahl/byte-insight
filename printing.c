@@ -13,7 +13,7 @@ void print_header(const char *columns){
 			case 'n': printf("%sname", i ?"\t" :""); break;
 			case 'r': printf("%sraw", i ?"\t" :""); break;
 			case 'u': printf("%sutf8", i ?"\t" :""); break;
-			default: printf("<?>\t");
+			default: printf("%s<?>", i ?"\t" :"");
 		}
 	}
 	printf("\n");
