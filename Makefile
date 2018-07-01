@@ -40,3 +40,8 @@ test-utf8: test
 
 build-generator:
 	gcc -o generator generator.c
+
+usage: build
+	echo test | ./byte-insight
+	echo Åsmund | ./byte-insight ohun
+	./byte-insight ?
