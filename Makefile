@@ -13,19 +13,29 @@ install:
 
 test: build-generator
 	gcc -g -o $(F_OUT) $(F_SRC)
-	echo "## Test basic usage…"
+	###
+	## Test basic usage…
+	###
 	bash -c "echo test >$(F_TEST_INPUT) && echo 'run <$(F_TEST_INPUT)' | gdb -quiet ./$(F_OUT)"
-	echo "## Test 0..255"
+	###
+	## Test 0..255
+	###
 	./generator >$(F_TEST_INPUT)
 	bash -c "echo 'run <$(F_TEST_INPUT)' | gdb -quiet ./$(F_OUT)"
-	echo "## Test 255..0"
+	###
+	## Test 255..0
+	###
 	./generator reverse >$(F_TEST_INPUT)
 	bash -c "echo 'run <$(F_TEST_INPUT)' | gdb -quiet ./$(F_OUT)"
 
 test-utf8: test
-	echo "## Test UTF-8…"
+	###
+	## Test UTF-8…
+	###
 	bash -c "echo 'Æ e ÅsmuŊ' >$(F_TEST_INPUT) && echo 'run <$(F_TEST_INPUT)' | gdb -quiet ./$(F_OUT)"
-	echo "## Test invalid UTF-8… (0x85 should wrap)"
+	###
+	## Test invalid UTF-8… (0x85 should wrap to extended ASCII)
+	###
 	bash -c "echo -e '\xc3\x85\x85\x85\x85\x85\x85\x85' >$(F_TEST_INPUT) && echo 'run <$(F_TEST_INPUT)' | gdb -quiet ./$(F_OUT)"
 
 build-generator:
