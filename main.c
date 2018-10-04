@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <ctype.h>
+#include <string.h>
 
 #include "printing.h"
 
@@ -9,7 +11,7 @@ int main(int argc, char const *argv[]){
 
 	const char *columns = argc > 1 ?argv[1] :"ohdbnru";
 
-	if(columns[0] == '?'){
+	if(strlen(columns) == 0 || !isalpha(columns[0])){
 		printf("Usage: %s [ohdbnru]*\n", argv[0]);
 		printf("\to - offset\n");
 		printf("\th - hex\n");

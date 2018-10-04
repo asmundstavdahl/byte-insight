@@ -31,7 +31,7 @@ offset  hex     utf8    name
 6       0x64    d       ASCII
 7       0x0a
         LF
-$ ./byte-insight ?
+$ ./byte-insight --help
 Usage: ./byte-insight [ohdbnru]*
         o - offset
         h - hex
